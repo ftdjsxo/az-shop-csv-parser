@@ -5,8 +5,10 @@ import com.example.azshopcsvparser.cache.staticresources.Cache;
 import com.example.azshopcsvparser.model.Tyre24Model;
 import com.example.azshopcsvparser.parser.Tyre24Parser;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,9 +43,32 @@ public class TyreCache {
     }
 
     public List<Tyre24Model> findByName(String name){
-        return allTyre.stream().
+        List<Tyre24Model> collect = allTyre.stream().
                 filter(tyre24Model -> tyre24Model.getDescription().contains(name))
                 .collect(Collectors.toList());
+        for (Tyre24Model model : collect) {
+            System.out.println("-----------Start----------");
+            advancedFind(model.getDescription());
+            System.out.println("------------End-----------");
+        }
+        return collect;
+    }
+
+    public List<Tyre24Model> advancedFind(String description){
+        List<String> descriptionElements = Arrays.asList(description.split(" ", 20));
+        List<String> notBlankElements = descriptionElements.stream().filter(stringElement -> !stringElement.isBlank()).collect(Collectors.toList());
+
+        //se elemento non parte per 
+
+        /* DEVO FARE UNA HASHMAP CONTENENTE I TAG OTTENUTI DALLO SPLIT
+        Key = notBlankElement
+        Value = List<Tyre24Element>
+        */
+        for (String e: notBlankElements) {
+            System.out.println(e);
+        }
+
+        return null;
     }
 
     public List<String> getAllManufacturersNames(){

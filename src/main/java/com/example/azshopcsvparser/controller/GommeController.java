@@ -26,8 +26,8 @@ public class GommeController {
     }
 
     @GetMapping("findBy")
-    List<Tyre24Model> byName(@RequestParam String name) {
-        return tyreCache.findByName(name);
+    List<Tyre24Model> byName(@RequestParam String q) {
+        return tyreCache.findBy(q);
     }
 
     @GetMapping("/manufacturers")

@@ -46,20 +46,58 @@ public class TyreCache {
     }
 
     public List<Tyre24Model> findBy(String query){
-        List<Tyre24Model> results = new ArrayList<>();
+        //List<Tyre24Model> results = new ArrayList<>();
+
+        HashMap<Tyre24Model, List<String>> resultKeysMap = new HashMap<>();
+
         String[] queryItems = query.split(" ", 20);
         for (String item : queryItems){
-            List<Tyre24Model> collect = allTyre.stream().
-                    filter(tyre24Model -> tyre24Model.getId().contains(item))
-                    .collect(Collectors.toList());
+            List<Tyre24Model> collect = null;
+            if (item.length() == 7)
+                collect = allTyre.stream().
+                        filter(tyre24Model -> tyre24Model.getArticle_id().contains(item))
+                        .collect(Collectors.toList());
+
             List<Tyre24Model> indexedResult = indexedItems.get(item);
-            if (collect != null)
-                results.addAll(collect);
-            if (indexedResult != null)
-                results.addAll(indexedResult);
+
+            //ID Results
+            if (collect != null) {
+                for (Tyre24Model collectedItem : collect) {
+                    List<String> strings = resultKeysMap.get(collectedItem);
+                    if (strings == null)
+                        strings = new ArrayList<>();
+
+                    strings.add(item);
+                    resultKeysMap.put(collectedItem, strings);
+                }
+            }
+
+            //inexedItemResults
+            if (indexedResult != null){
+                for (Tyre24Model indexedItem : indexedResult) {
+                    List<String> strings = resultKeysMap.get(indexedItem);
+                    if (strings == null)
+                        strings = new ArrayList<>();
+                    strings.add(item);
+                    resultKeysMap.put(indexedItem, strings);
+                }
+
+                //results.addAll(indexedResult);
+            }
+
         }
 
-        return results.stream().distinct().collect(Collectors.toList());
+        ArrayList<Tyre24Model> tyre24Results = new ArrayList<>();
+
+        Set<Map.Entry<Tyre24Model, List<String>>> entries = resultKeysMap.entrySet();
+
+        for (Map.Entry<Tyre24Model, List<String>> entry: entries){
+            if (entry.getValue().stream().count() >= Arrays.stream(queryItems).count())
+                tyre24Results.add(entry.getKey());
+
+        }
+
+        return tyre24Results;
     }
 
     public void indexByDescription(Tyre24Model tyre24Model){
@@ -94,14 +132,16 @@ public class TyreCache {
                     }
                     addIndexItem(split[0] + split[1], tyre24Model);
                 }
-            }else if (e.length() == 3 || e.length() == 4){
-                //Indice di carico e velocità
-                if (Character.isDigit(e.charAt(0)) && Character.isAlphabetic(e.charAt(e.length() -1 ))){
-                    System.out.println("Found index value " + e);
-                    String numericIndex = e.substring(0, e.length() - 2);
-                    addIndexItem(numericIndex, tyre24Model);
-                    String charIndex = e.substring(e.length() - 2, e.length() - 1);
-                    addIndexItem(charIndex, tyre24Model);
+
+                if (e.length() == 3 || e.length() == 4){
+                    //Indice di carico e velocità
+                    if (Character.isAlphabetic(e.charAt(0)) && Character.isDigit(e.charAt(e.length() -1 ))){
+                        System.out.println("Found index value " + e);
+                        String numericIndex = e.substring(1, e.length());
+                        addIndexItem(numericIndex, tyre24Model);
+                        String charIndex = e.substring(0, e.length() - 2);
+                        addIndexItem(charIndex, tyre24Model);
+                    }
                 }
             }
             addIndexItem(e, tyre24Model);

@@ -12,11 +12,11 @@ public class Cache {
 
     private Cache(){}
 
-    static public Cachable getCacheByName(String name){
+    synchronized static public Cachable getCacheByName(String name){
         return cache.get(name);
     }
 
-    static public boolean putCache(Cachable cachable, String name) {
+    synchronized static public boolean putCache(Cachable cachable, String name) {
         if (name == null || name.isBlank())
             return false;
         cache.put(name, cachable);

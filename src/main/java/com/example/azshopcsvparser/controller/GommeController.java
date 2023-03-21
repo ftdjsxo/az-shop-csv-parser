@@ -15,6 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.*;
 
+@CrossOrigin
 @RestController
 public class GommeController {
 
@@ -30,9 +31,21 @@ public class GommeController {
         }
     }
 
+    @GetMapping("/reload")
+    String reload() {
+        try {
+            return String.valueOf(tyreCache.reload());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @GetMapping("findBy")
     List<Tyre24Model> byName(@RequestParam String q) {
-        return tyreCache.findBy(q);
+        List<Tyre24Model> resultList = tyreCache.findBy(q);
+        if (resultList.size() > 30)
+            return resultList.subList(0, 30);
+        return resultList;
     }
 
     @GetMapping("/manufacturers")

@@ -28,6 +28,13 @@ public class TyreCache {
         return allTyre;
     }
 
+
+    public long reload() throws Exception {
+        allTyre = null;
+        buildCacheFromCSV();
+        return allTyre.size();
+    }
+
     private boolean buildCacheFromCSV() throws Exception {
         ArrayList<Tyre24Model> tyre24Models = Tyre24Parser.scanLocalCSV();
         return setTyreCache(tyre24Models);

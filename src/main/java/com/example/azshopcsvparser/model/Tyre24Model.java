@@ -26,6 +26,24 @@ public class Tyre24Model {
     private String noise_decibel;
     private String vehicle_class;
     private String expected_delivery_date;
+    private String data_sheet;
+    private String anonym_price_one;
+
+    public String getAnonym_price_one() {
+        return anonym_price_one;
+    }
+
+    public void setAnonym_price_one(String anonym_price_one) {
+        this.anonym_price_one = anonym_price_one;
+    }
+
+    public String getData_sheet() {
+        return data_sheet;
+    }
+
+    public void setData_sheet(String data_sheet) {
+        this.data_sheet = data_sheet;
+    }
 
     public String getId() {
         return id;
@@ -48,7 +66,7 @@ public class Tyre24Model {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description.replaceAll("\"", "");
     }
 
     public String getDescription_2() {
@@ -68,7 +86,14 @@ public class Tyre24Model {
     }
 
     public String getPrice_4() {
-        return price_4;
+        if (price_4 != null && !price_4.isBlank()) {
+            Double doublePrice_4 = Double.valueOf(price);
+            doublePrice_4 = doublePrice_4 * 1.22;
+            doublePrice_4 = doublePrice_4 * 1.05;
+            return String.format("%.2f", doublePrice_4);
+        }
+
+        return "";
     }
 
     public void setPrice_4(String price_4) {

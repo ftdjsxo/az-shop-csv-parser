@@ -21,11 +21,11 @@ public class Tyre24Parser {
 
     public static ArrayList<Tyre24Model> scanLocalCSV() throws Exception{
         ArrayList<Tyre24Model> tyre24Models = new ArrayList<>();
-        File testFile = new File("src/main/resources/demo_it.csv");
+        File testFile = new File("src/main/resources/129361_it.csv");
 
         CsvMapper csvMapper = new CsvMapper();
 
-        CsvSchema schema = CsvSchema.emptySchema().withHeader().withColumnSeparator(']');
+        CsvSchema schema = CsvSchema.emptySchema().withHeader().withColumnSeparator('|').withoutQuoteChar();
         MappingIterator<Tyre24Model> tyre24ModelMappingIterator = csvMapper.readerFor(Tyre24Model.class).with(schema).readValues(testFile);
         while (tyre24ModelMappingIterator.hasNext()) {
             tyre24Models.add(tyre24ModelMappingIterator.nextValue());

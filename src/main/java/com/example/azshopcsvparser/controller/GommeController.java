@@ -14,6 +14,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class GommeController {
@@ -24,7 +25,7 @@ public class GommeController {
     @GetMapping("/all")
     List<Tyre24Model> all() {
         try {
-            return tyreCache.getAllTyre();
+            return tyreCache.getAllTyre().stream().limit(10).collect(Collectors.toUnmodifiableList());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

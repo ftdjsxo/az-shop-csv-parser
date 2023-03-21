@@ -27,6 +27,26 @@ public class Tyre24Model {
     private String vehicle_class;
     private String expected_delivery_date;
 
+    private String data_sheet;
+
+    private String anonym_price_one;
+
+    public String getAnonym_price_one() {
+        return anonym_price_one;
+    }
+
+    public void setAnonym_price_one(String anonym_price_one) {
+        this.anonym_price_one = anonym_price_one;
+    }
+
+    public String getData_sheet() {
+        return data_sheet;
+    }
+
+    public void setData_sheet(String data_sheet) {
+        this.data_sheet = data_sheet;
+    }
+
     public String getId() {
         return id;
     }

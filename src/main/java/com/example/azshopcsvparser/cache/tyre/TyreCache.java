@@ -97,7 +97,8 @@ public class TyreCache {
 
         }
 
-        return tyre24Results;
+        //tyre24Results.stream().limit(30).collect(Collectors.toUnmodifiableList());
+        return tyre24Results.stream().limit(30).collect(Collectors.toUnmodifiableList());
     }
 
     public void indexByDescription(Tyre24Model tyre24Model){
@@ -136,7 +137,7 @@ public class TyreCache {
                 if (e.length() == 3 || e.length() == 4){
                     //Indice di carico e velocità
                     if (Character.isAlphabetic(e.charAt(0)) && Character.isDigit(e.charAt(e.length() -1 ))){
-                        System.out.println("Found index value " + e);
+                        //System.out.println("Found index value " + e);
                         String numericIndex = e.substring(1, e.length());
                         addIndexItem(numericIndex, tyre24Model);
                         String charIndex = e.substring(0, e.length() - 2);
@@ -145,6 +146,8 @@ public class TyreCache {
                 }
             }
             addIndexItem(e, tyre24Model);
+            addIndexItem(tyre24Model.getManufacturer(), tyre24Model);
+            //addIndexItem(tyre24Model.get);
         }
     }
 

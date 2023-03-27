@@ -43,8 +43,8 @@ public class Tyre24Parser {
         ArrayList<Tyre24Model> tyre24Models = new ArrayList<>();
 
         //File testFile = new File("D:/demo_it.csv");
-        File prodFile = new File("src/main/resources/prod.csv");
-        //File prodFile = new File("D:/prod.csv");
+        //File prodFile = new File("src/main/resources/prod.csv");
+        File prodFile = new File("D:/prod.csv");
 
         CsvMapper csvMapper = new CsvMapper();
 

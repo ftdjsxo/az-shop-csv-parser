@@ -43,8 +43,8 @@ public class GommeController {
     @GetMapping("findBy")
     List<Tyre24Model> byName(@RequestParam String q) {
         List<Tyre24Model> resultList = tyreCache.findBy(q);
-        if (resultList.size() > 30)
-            return resultList.subList(0, 30);
+        if (resultList.size() > 100)
+            return resultList.subList(0, 100);
         return resultList;
     }
 
